@@ -1,0 +1,48 @@
+-- Get a quick view of what information the database contains.
+SELECT *
+FROM fortune_companies;
+
+-- Group the data in a new way using a CASE statement.
+--Assign all the companies in the Healthcare industry as "mother friendly workplace", "acceptable", "abysmal"
+SELECT company_name,
+CASE WHEN maternity_leave_weeks>=10 THEN mother friendly workplace
+WHEN maternity_leave_weeks>=8 THEN acceptable
+ELSE abysmal
+WHERE industry='Healthcare';
+
+
+--Use a HAVING clause to determine something interesting about the data per category.
+--Which companies have 2000 employees or less?
+SELECT company_name, industry, employees
+FROM fortune_companies
+GROUP BY employees
+HAVING employees<=2000
+ORDER BY employees desc;
+
+
+--Use logical operators like AND or OR to filter the data in an interesting way.
+--Which companies offer healthcare benefits in the Technology Industry?
+SELECT company_name, healthcare_benefits
+FROM fortune_companies
+WHERE healthcare_benefits IS NOT NULL AND industry = 'Technology'
+ORDER BY company_name desc;
+
+
+--Use an aggregate function like AVG, SUM, MAX, and/or MIN to return summary statistics about the data.
+--What is the average employee tenure in the Retail industry?
+SELECT industry, AVG(avg_employee_tenure) AS avg_employee_tenure_retail
+FROM fortune_companies
+WHERE industry='Retail';
+
+
+--I want to know the top 10 companies with the highest maternity leave weeks.
+SELECT company_name, maternity_leave_weeks
+FROM fortune_companies 
+ORDER BY maternity_leave_weeks desc
+LIMIT 10;
+
+
+--Which company in Energy industry has the highest revenue, and what's their revenue?
+SELECT company_name, MAX(revenue)
+FROM fortune_companies
+WHERE industry = 'Healthcare';
